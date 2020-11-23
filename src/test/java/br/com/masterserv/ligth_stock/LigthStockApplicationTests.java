@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -56,8 +57,17 @@ class LigthStockApplicationTests {
 
 		Produto produto = new Produto();
 		produto.setProdutoCodigoVenda("12345678br");
-		produto.setConteudo("Test test");
-		produto.setDataHora(new Date()); // java.util
+		produto.setProdutoCodigoComprado("Test test");
+		produto.setProdutoNome("Caneta bic");
+		produto.setProdutoNcm(12345678);
+		produto.setProdutoUnidade("pacote");
+		produto.setProdutoQuantidade(15);
+		produto.setProdutoPrecoCompra(new BigDecimal(15.20));
+		produto.setProdutoPercentagemLucro(new BigDecimal(25.8));
+		produto.setProdutoPrecoVenda(new BigDecimal(25.4));
+		produto.setProdutoPrecoFobUsa(new BigDecimal(4.4));
+		produto.setProdutoPesoKg(new BigDecimal(4.400));
+		produto.setProdutoDimensaoCm("10 x 20 x 50");
 		produto.setResponsavel(usuario);
 
 		produtoRepo.save(produto);
