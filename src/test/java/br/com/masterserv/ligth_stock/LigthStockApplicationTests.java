@@ -56,8 +56,8 @@ class LigthStockApplicationTests {
 
 		Produto produto = new Produto();
 		produto.setProdutoCodigoVenda("12345678br");
-		produto.setConteudo("Test test");
-		produto.setDataHora(new Date()); // java.util
+		produto.setProdutoCodigoComprado("Test test");
+		produto.setProdutoNome("Caneta bic");
 		produto.setResponsavel(usuario);
 
 		produtoRepo.save(produto);
