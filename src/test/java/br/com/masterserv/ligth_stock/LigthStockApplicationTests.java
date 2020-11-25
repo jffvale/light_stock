@@ -4,6 +4,8 @@ import br.com.masterserv.ligth_stock.entity.Produto;
 import br.com.masterserv.ligth_stock.entity.Usuario;
 import br.com.masterserv.ligth_stock.repository.ProdutoRepository;
 import br.com.masterserv.ligth_stock.repository.UsuarioRepository;
+import br.com.masterserv.ligth_stock.service.ProdutoService;
+import br.com.masterserv.ligth_stock.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,12 @@ class LigthStockApplicationTests {
 
 	@Autowired
 	private ProdutoRepository produtoRepo;
+
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@Autowired
+	private ProdutoService produtoService;
 
 	@Test
 	void contextLoads() {
@@ -74,5 +82,42 @@ class LigthStockApplicationTests {
 
 		// Checando se o ID não é  nulo, pois deve ter sido gerado automaticamente.
 		assertNotNull(usuario.getId());
+	}
+
+	@Test
+	void usuarioServiceNovoUsuarioTest(){
+		Usuario usuario = usuarioService.novoUsuario(
+				"Test",
+				"test@email.com",
+				"senha",
+				"ROLE_ADMIN");
+
+		assertNotNull(usuario.getId());
+	}
+
+	@Test
+	void produtoServiceAdicionarProdutoTest(){
+		usuarioService.novoUsuario(
+				"Test",
+				"test@email.com",
+				"senha",
+				"ROLE_ADMIN");
+
+		Produto produto = produtoService.adicionarProduto(
+				"master123",
+				"123456",
+				"caneta bic",
+				12345678,
+				"pacote",
+				50,
+				new BigDecimal(32.40),
+				new BigDecimal(30.0),
+				new BigDecimal(42.12),
+				new BigDecimal(5.7),
+				new BigDecimal(0.030),
+				"testxtest",
+				"test@email.com");
+
+		assertNotNull(produto.getId());
 	}
 }
