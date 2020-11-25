@@ -10,7 +10,7 @@ import br.com.masterserv.ligth_stock.repository.AutorizacaoRepository;
 import br.com.masterserv.ligth_stock.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 
 @Service("usuarioService")
@@ -23,6 +23,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     private UsuarioRepository usuarioRepo;
 
     @Override
+    @Transactional
     public Usuario novoUsuario(String nome, String email, String senha, String autorizacao) {
 
         Autorizacao aut = autorizacaoRepo.findByNome(autorizacao);
