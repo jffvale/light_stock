@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 
 @Service("produtoService")
+@Transactional
 public class ProdutoServiceImpl implements ProdutoService{
 
     @Autowired
