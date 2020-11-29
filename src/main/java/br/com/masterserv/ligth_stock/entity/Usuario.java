@@ -4,6 +4,9 @@ package br.com.masterserv.ligth_stock.entity;
  * @author JFreitas - created on 20/11/2020
  */
 
+import br.com.masterserv.ligth_stock.controller.View;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import javax.persistence.*;
 import javax.persistence.*;
 import java.util.Set;
@@ -14,15 +17,18 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "usr_id")
+    @JsonView(View.ProdutoCompleto.class)
     private Long id;
 
     // Os dados da coluna (nome, unique, lenght,etc) não precisam estar aqui,
     // pois a tabela já foi criada no BD com sua formatação
     // NÃO É RECOMENDADO CRIAR AS TABELAS VIA JPA!
     @Column(name = "usr_nome", unique=true, length = 50, nullable = false)
+    @JsonView(View.ProdutoCompleto.class)
     private String nome;
 
     @Column(name = "usr_email", unique=true, length = 60, nullable = false)
+    @JsonView(View.ProdutoCompleto.class)
     private String email;
 
     @Column(name = "usr_senha", length = 10, nullable = false)
@@ -42,6 +48,7 @@ public class Usuario {
     // (linha63) que vai fazer a ligação de 'Produto' com a Classe
     // Lazy -> Quando buscar um Usuario ele so trás as informações produto quando solicitado
 
+    @JsonIgnore // Deve manter esse "ignore" ativo para não deixar o programa em looping.
     private Set<Produto> produtos; // usar o Set, não usar List. Set não tem repetições
 
     public Long getId() {

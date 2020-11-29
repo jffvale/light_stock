@@ -1,90 +1,25 @@
-package br.com.masterserv.ligth_stock.entity;
+package br.com.masterserv.ligth_stock.controller;
 
 /*
- * @author JFreitas - created on 20/11/2020
+ * @author JFreitas - created on 29/11/2020
  */
 
-import br.com.masterserv.ligth_stock.controller.View;
-import com.fasterxml.jackson.annotation.JsonView;
-import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "produto")
-public class Produto {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "prod_id")
-    @JsonView(View.ProdutoCompleto.class)
-    private Long id;
-
-    @Column(name = "prod_cod_venda", unique=true, length = 15, nullable = false)
-    @JsonView(View.ProdutoCompleto.class)
-    private String produtoCodigoVenda; // Código do produto interno da Empresa, NFe saida
-
-    @Column(name = "prod_cod_entrada", unique=true, length = 15, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
-    private String produtoCodigoComprado; // Código do produto que veio na NFe entrada
-
-    @Column(name = "prod_nome", length = 250, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
+public class ProdutoDTO {
+    private String produtoCodigoVenda;
+    private String produtoCodigoComprado;
     private String produtoNome;
-
-    @Column(name = "prod_ncm", length = 8, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
     private int produtoNcm;
-
-    // Unidade da disponibilidade do produto, pode ser
-    // UN = unidade, KG = Kilograma, PC = Pacote, etc.
-    @Column(name = "prod_unidade", length = 10, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
     private String produtoUnidade;
-
-    @Column(name = "prod_quantidade", length = 10, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
     private int produtoQuantidade;
-
-    @Column(name = "prod_preco_compra", precision=8, scale=2, nullable = false)
-    @JsonView(View.ProdutoResumo.class)
     private BigDecimal produtoPrecoCompra;
-
-    @Column(name = "prod_perc_lucro", precision=3, scale=1, nullable = false)
-    @JsonView(View.ProdutoCompleto.class)
     private BigDecimal produtoPercentagemLucro;
-
-    @Column(name = "prod_preco_venda", precision=9, scale=2, nullable = false)
-    @JsonView(View.ProdutoCompleto.class)
     private BigDecimal produtoPrecoVenda;
-
-    // Preço do produto em dolar americano FOB USA.
-    @Column(name = "prod_preco_fob_usa", precision=8, scale=2)
-    @JsonView(View.ProdutoCompleto.class)
     private BigDecimal produtoPrecoFobUsa;
-
-    @Column(name = "prod_peso_kg", precision=6, scale=3)
-    @JsonView(View.ProdutoResumo.class)
     private BigDecimal produtoPesoKg;
-
-    @Column(name = "prod_dimensao_cm", length = 15)
-    @JsonView(View.ProdutoResumo.class)
     private String produtoDimensaoCm;
-
-    @ManyToOne(fetch = FetchType.EAGER) // "EAGER" significa que toda vez que buscar uma
-    // frase ela trás o autor, ao contrário do "LAZY"
-
-    // A chave estrangeira é mapeada com a anotação @JoinColumn.
-    @JoinColumn(name = "usr_resp_id") // É o nome da coluna que tem a Chave estrangeira.
-    @JsonView(View.ProdutoResumo.class)
-    private Usuario responsavel;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String usuario; // responsavel pela operação
 
     public String getProdutoCodigoVenda() {
         return produtoCodigoVenda;
@@ -182,11 +117,11 @@ public class Produto {
         this.produtoDimensaoCm = produtoDimensaoCm;
     }
 
-    public Usuario getResponsavel() {
-        return responsavel;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setResponsavel(Usuario responsavel) {
-        this.responsavel = responsavel;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }

@@ -44,7 +44,7 @@ class LigthStockApplicationTests {
 	@Test
 	void usuarioRepositorySaveTest(){
 		Usuario usuario = new Usuario();
-		usuario.setNome("Joao");
+		usuario.setNome("Test");
 		usuario.setEmail("test@email.com");
 		usuario.setSenha("senha");
 
@@ -57,7 +57,7 @@ class LigthStockApplicationTests {
 	@Test
 	void produtoRepositorySaveTest(){
 		Usuario usuario = new Usuario();
-		usuario.setNome("Joao");
+		usuario.setNome("Test");
 		usuario.setEmail("test@email.com");
 		usuario.setSenha("senha");
 
@@ -104,10 +104,10 @@ class LigthStockApplicationTests {
 				"ROLE_ADMIN");
 
 		Produto produto = produtoService.adicionarProduto(
-				"master123",
-				"123456",
-				"caneta bic",
-				12345678,
+				"mastertest",
+				"12345test",
+				"caneta bic test",
+				87654321,
 				"pacote",
 				50,
 				new BigDecimal(32.40),
@@ -116,7 +116,7 @@ class LigthStockApplicationTests {
 				new BigDecimal(5.7),
 				new BigDecimal(0.030),
 				"testxtest",
-				"test@email.com");
+				"test");
 
 		assertNotNull(produto.getId());
 	}
