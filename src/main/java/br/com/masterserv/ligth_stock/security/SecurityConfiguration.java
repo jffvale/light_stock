@@ -4,24 +4,54 @@ package br.com.masterserv.ligth_stock.security;
  * @author JFreitas - created on 28/11/2020
  */
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity // Realiza a configuração básica de segurança.
-@EnableGlobalMethodSecurity(prePostEnabled = true) // Habilita o uso de anotações
-                        // (@PreAuthorize e @PostAuthorize) para limitar o acesso a métodos.
-// “SecurityConfiguration extends WebSecurityConfigurerAdapter” que é uma classe de
-// configuração do Spring Security e alteramos a configuração desabilitando o CSRF
-// (Cross-Site Request Forgery).
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable() // this disables session creation on Spring Security
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .addFilterBefore(new JwtAuthenticationFilter()
+                        , UsernamePasswordAuthenticationFilter.class)
+
+                // this disables session creation on Spring Security
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean()
+            throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

@@ -6,11 +6,12 @@ package br.com.masterserv.ligth_stock.repository;
 
 import br.com.masterserv.ligth_stock.entity.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    List<Produto> findByResponsavelNomeOrResponsavelEmail (String nome, String email);
+    @PreAuthorize("isAuthenticated()")
+    public List<Produto> findByResponsavelNomeOrResponsavelEmail (String nome, String email);
 
 }

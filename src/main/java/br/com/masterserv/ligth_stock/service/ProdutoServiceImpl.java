@@ -9,6 +9,7 @@ import br.com.masterserv.ligth_stock.entity.Usuario;
 import br.com.masterserv.ligth_stock.repository.ProdutoRepository;
 import br.com.masterserv.ligth_stock.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class ProdutoServiceImpl implements ProdutoService{
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public Produto adicionarProduto(
             String produtoCodigoVenda,
             String produtoCodigoComprado,
